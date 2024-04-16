@@ -18,19 +18,19 @@ function M.convert_json_to_ts()
       return
    end
 
-   -- TypeScript için çıktı oluştur
    local ts_output = "interface MyData {\n"
    for key, value in pairs(json_data) do
+      ts_output = ts_output .. "    " .. key .. ": "
       if type(value) == "string" then
-         ts_output = ts_output .. "  " .. key .. ": string;\n"
+         ts_output = ts_output .. "string\n"
       elseif type(value) == "number" then
-         ts_output = ts_output .. "  " .. key .. ": number;\n"
+         ts_output = ts_output .. "number\n"
       elseif type(value) == "boolean" then
-         ts_output = ts_output .. "  " .. key .. ": boolean;\n"
+         ts_output = ts_output .. "boolean\n"
       elseif type(value) == "table" then
-         ts_output = ts_output .. "  " .. key .. ": any[];\n"
+         ts_output = ts_output .. "any[]\n"
       else
-         ts_output = ts_output .. "  " .. key .. ": any;\n"
+         ts_output = ts_output .. "any\n"
       end
    end
    ts_output = ts_output .. "}\n"
