@@ -6,7 +6,7 @@ function M.setup(opts)
    opts = opts or {}
 
    vim.keymap.set("n", "<leader>d", function()
-      util.show_clipboard_content()
+      util.convert_json_to_ts()
    end, { desc = "Json to TS" })
 end
 
