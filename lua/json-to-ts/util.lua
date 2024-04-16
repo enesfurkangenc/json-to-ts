@@ -14,7 +14,11 @@ end
 
 function M.convert_json_to_ts()
    local clipboard_content = M.get_clipboard_content()
-   local json_data = json.decode(clipboard_content)
+   local json_data = vim.fn.json_decode(clipboard_content)
+   if not json_data then
+      print("Hata: JSON ayrıştırılamadı")
+      return
+   end
 
    -- TypeScript için çıktı oluştur
    local ts_output = "interface MyData {\n"
