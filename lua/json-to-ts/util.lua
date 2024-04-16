@@ -20,17 +20,19 @@ function M.convert_json_to_ts()
 
    local ts_output = "interface MyData {\n"
    for key, value in pairs(json_data) do
-      ts_output = ts_output .. "    " .. key .. ": "
+      -- JSON içeriğindeki kontrol karakterlerini temizle
+      key = key:gsub("%c", "")
       if type(value) == "string" then
-         ts_output = ts_output .. "string\n"
+         value = value:gsub("%c", "")
+         ts_output = ts_output .. "    " .. key .. ": string;\n"
       elseif type(value) == "number" then
-         ts_output = ts_output .. "number\n"
+         ts_output = ts_output .. "    " .. key .. ": number;\n"
       elseif type(value) == "boolean" then
-         ts_output = ts_output .. "boolean\n"
+         ts_output = ts_output .. "    " .. key .. ": boolean;\n"
       elseif type(value) == "table" then
-         ts_output = ts_output .. "any[]\n"
+         ts_output = ts_output .. "    " .. key .. ": any[];\n"
       else
-         ts_output = ts_output .. "any\n"
+         ts_output = ts_output .. "    " .. key .. ": any;\n"
       end
    end
    ts_output = ts_output .. "}\n"
