@@ -1,5 +1,3 @@
-local json = require("json")
-
 local M = {}
 
 function M.get_clipboard_content()
