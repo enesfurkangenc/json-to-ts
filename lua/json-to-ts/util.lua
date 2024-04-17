@@ -26,11 +26,10 @@ function M.under_cursor(_)
    }
 end
 
-function M.input()
+function M.input(on_confirm)
    local prompt = "Name"
    local default = ""
 
-   -- Calculate a minimal width with a bit buffer
    local default_width = vim.str_utfindex(default) + 10
    local prompt_width = vim.str_utfindex(prompt) + 10
    local input_width = default_width > prompt_width and default_width
@@ -48,7 +47,7 @@ function M.input()
    local win_config = vim.tbl_deep_extend(
       "force",
       default_win_config,
-      M.under_cursor(default_win_config.width)
+      M.window_center(default_win_config.width)
    )
 
    local buffer = vim.api.nvim_create_buf(false, true)
@@ -60,7 +59,7 @@ function M.input()
 
    vim.keymap.set({ "n", "i", "v" }, "<cr>", function()
       local lines = vim.api.nvim_buf_get_lines(buffer, 0, 1, false)
-      print(lines[1])
+      on_confirm(lines[1])
       vim.api.nvim_win_close(window, true)
       vim.cmd("stopinsert")
       return lines[1]
@@ -74,10 +73,15 @@ function M.input()
    end, { buffer = buffer })
 end
 
+local function on_confirm(input_param)
+   print("input_param: ", input_param)
+end
+
 function M.convert_json_to_ts()
-   local clipboard_content = M.get_clipboard_content()
-   local input_param = M.input()
-   print(input_param)
+   -- local clipboard_content = M.get_clipboard_content()
+
+   local input_param = M.input(on_confirm)
+
    -- local json_data = vim.fn.json_decode(clipboard_content)
    -- if not json_data then
    --    print("Hata: JSON ayrıştırılamadı")
